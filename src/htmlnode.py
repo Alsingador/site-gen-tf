@@ -21,18 +21,6 @@ class HTMLNode:
 
     def __repr__(self):
         rs = f"HTMLNode(tag={self.tag}, value={self.value}, "
-        if self.children:
-            rs = rs + f"children=["
-            for c in self.children:
-                rs = rs + f"\n - {c}"
-            rs = rs + f"\n], "
-        else:
-            rs = rs + f"children={self.children}, "
-        if self.props:
-            rs = rs + "props={"
-            for p in self.props:
-                rs = rs + f"\n - {p}"
-            rs = rs + "\n}"
-        else:
-            rs = rs + f"props={self.props}"
+        rs = rs + f"children={self.children}, "
+        rs = rs + f"props={self.props}"
         return rs
