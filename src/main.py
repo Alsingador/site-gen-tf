@@ -1,4 +1,5 @@
 from textnode import TextNode  
+from leafnode import LeafNode 
 
 
 def main():
