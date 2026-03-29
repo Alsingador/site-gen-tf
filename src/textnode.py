@@ -50,3 +50,22 @@ def text_node_to_html_node(text_node):
     return LeafNode(tag, text_node.text, props = props)
 
 
+def split_nodes_delimiter(old_nodes, delimiter, text_type):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT or delimiter not in node.text:
+            new_nodes.append(node)
+            break
+        sub_texts = node.text.split(delimiter)
+        if len(sub_texts)%2 == 0:
+            raise Exception(f"Invalid Markdown: missmatched delimiter {delimiter} in: {node.text}")
+        is_del_type = False
+        for text in sub_texts:
+            if is_del_type:
+                new_nodes.append(TextNode(text, text_type))
+            else:
+                if text:
+                    new_nodes.append(TextNode(text, TextType.TEXT))
+            is_del_type = not is_del_type
+    return new_nodes
+
