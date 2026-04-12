@@ -10,11 +10,6 @@ class BlockType(Enum):
     OLIST = "ordered_list"
 
 
-class BlockNode:
-    pass
-
-
-
 def markdown_to_blocks(markdown):
     md_blocks = []
     for md in markdown.split('\n\n'):
@@ -48,5 +43,3 @@ def block_to_block_type(markdown):
         counter += 1
     return BlockType.OLIST
 
-
-        

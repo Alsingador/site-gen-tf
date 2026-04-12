@@ -54,9 +54,9 @@ def text_node_to_html_node(text_node):
 
 def text_to_textnodes(text):
     delimiters = [
+        ('`', TextType.CODE),
         ('**', TextType.BOLD),
         ('_', TextType.ITALIC),
-        ('`', TextType.CODE),
     ]
     nodes = [TextNode(text, TextType.TEXT)]
     for delim, typ in delimiters:
