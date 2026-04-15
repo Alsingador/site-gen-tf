@@ -26,9 +26,10 @@ def make_nodes_for_block_type(md_block, block_type):
             return ParentNode("pre", code_leaf)
 
         case BlockType.QUOTE:
-            lines = [line.lstrip('>') for line in md_block.split('\n')]
+            lines = [line.lstrip('> ') for line in md_block.split('\n')]
             leaf_nodes = text_to_leaf_nodes(" ".join(lines))
-            return ParentNode("blockquote", quote_line_nodes)
+
+            return ParentNode("blockquote", leaf_nodes)
 
         case BlockType.ULIST:
             lines = [line[2:] for line in md_block.split('\n')]

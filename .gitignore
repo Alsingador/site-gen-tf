@@ -13,4 +13,5 @@ wheels/
 public/
 
 # Projet images
-tolkien.png
+static/images/
+content/

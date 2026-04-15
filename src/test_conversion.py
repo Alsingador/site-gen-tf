@@ -73,3 +73,13 @@ And a paragraph
             html,
             "<div><ul><li>y</li><li>d</li><li>p</li></ul><ol><li>a</li><li>b</li><li>c</li></ol></div>",
         )
+    def test_image_in_paragraph(self):
+        md = """
+![text](src)
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            '<div><p><img src="src" alt="text"></img></p></div>',
+        )

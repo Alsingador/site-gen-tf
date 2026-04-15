@@ -140,7 +140,7 @@ class TestTextToNodes(unittest.TestCase):
 
         enode = TextNode("", TextType.TEXT)
         img_text = "![img](path)"
-        img_node = TextNode("img", TextType.IMAGE, "path")
+        img_node = TextNode("img", TextType.IMAGE, url="path")
         self.assertEqual(text_to_textnodes(img_text), [enode, img_node, enode])
         link_text = "[link](url)"
         link_node = TextNode("link", TextType.LINK, "url")

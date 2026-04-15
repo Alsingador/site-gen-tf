@@ -17,6 +17,10 @@ class TestBlocks(unittest.TestCase):
         blocks = markdown_to_blocks(md)
         self.assertEqual(blocks,[])
 
+        md = "!(text)[src]"
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(blocks,["!(text)[src]"])
+
         md = """
 This is **bolded** paragraph
 
