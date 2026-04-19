@@ -7,8 +7,23 @@ from conversion import *
 def main():
     print("started")
     set_up_directory("static", "public")
-    generate_page("content/index.md", "template.html", "public/index.html")
+    pages_created = generate_pages_recursive("content", "template.html", "public")
+    print(pages_created)
     print("done")
+
+
+def generate_pages_recursive(path, template, dest):
+    if os.path.isfile(path):
+        if path.endswith(".md"):
+            pub = path.replace(path.split("/")[0], dest, 1) 
+            pub = pub.replace(".md", ".html")
+            generate_page(path, template, pub)
+            return [pub]
+        return []
+    mds = []
+    for item in os.listdir(path):
+        mds = mds + generate_pages_recursive(os.path.join(path,item), template, dest)
+    return mds
 
 
 def set_up_directory(source, destination):
