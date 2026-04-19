@@ -1,28 +1,38 @@
 import os
 import shutil
+import sys
 
 from conversion import *
 
 
 def main():
     print("started")
-    set_up_directory("static", "public")
-    pages_created = generate_pages_recursive("content", "template.html", "public")
+    try:
+        basepath = sys.argv[1]
+    except:
+        basepath = "/"
+    if not basepath:
+        basepath = "/"
+
+    destination = "docs"
+
+    set_up_directory("static", destination)
+    pages_created = generate_pages_recursive("content", "template.html", destination, basepath)
     print(pages_created)
     print("done")
 
 
-def generate_pages_recursive(path, template, dest):
+def generate_pages_recursive(path, template, dest, basepath):
     if os.path.isfile(path):
         if path.endswith(".md"):
             pub = path.replace(path.split("/")[0], dest, 1) 
             pub = pub.replace(".md", ".html")
-            generate_page(path, template, pub)
+            generate_page(path, template, pub, basepath)
             return [pub]
         return []
     mds = []
     for item in os.listdir(path):
-        mds = mds + generate_pages_recursive(os.path.join(path,item), template, dest)
+        mds = mds + generate_pages_recursive(os.path.join(path,item), template, dest, basepath)
     return mds
 
 
@@ -41,7 +51,7 @@ def extract_title(markdown):
     raise Exception("No h1 header (# ) in markdown")
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"generating page from {from_path} to {dest_path} using {template_path}")
     source_md = ""
     template_html = ""
@@ -55,6 +65,8 @@ def generate_page(from_path, template_path, dest_path):
 
     site_html = template_html.replace("{{ Title }}", title)
     site_html = site_html.replace("{{ Content }}", source_html)
+    site_html = site_html.replace('href="/', f'href="{basepath}')
+    site_html = site_html.replace('src="/', f'src="{basepath}')
 
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     with open(dest_path, 'w') as f:
